@@ -64,35 +64,43 @@ function Login() {
                 setMessage('Login successful!');
                 navigate('/main');
             } catch (error) {
+                console.log(error.response.data.message)
                 setMessage('Login failed: ' + error.response.data.message);
             }
 };
 
     return (
         <React.Fragment>
-            <Flex align="center" justify="center">
-                <form onSubmit={handleSubmit}>
-                    <Stack spacing={5}>
-                        <div>
-                            <Input
-                                placeholder='Username'
-                                value={username} 
-                                onChange={handleUsernameChange} 
-                            />
-                            {errors.username && <p>{errors.username}</p>}
-                        </div>
-                        <div>
-                            <Input 
-                                type='password'
-                                placeholder='Password'
-                                value={password} 
-                                onChange={handlePasswordChange} 
-                            />
-                            {errors.password && <p>{errors.password}</p>}
-                        </div>
-                        <Button type="submit" >Login</Button>
-                    </Stack>
-                </form>
+            <Flex align="center" justify="center" direction="column" width="100%" height="100%">
+                <Stack spacing={5}>
+                    <Box as="h2" textAlign="center">
+                        Login
+                    </Box>
+                    <Box>
+                        <form onSubmit={handleSubmit}>
+                            <Stack spacing={5}>
+                                <div>
+                                    <Input
+                                        placeholder='Username'
+                                        value={username} 
+                                        onChange={handleUsernameChange} 
+                                    />
+                                    {errors.username && <p>{errors.username}</p>}
+                                </div>
+                                <div>
+                                    <Input 
+                                        type='password'
+                                        placeholder='Password'
+                                        value={password} 
+                                        onChange={handlePasswordChange} 
+                                    />
+                                    {errors.password && <p>{errors.password}</p>}
+                                </div>
+                                <Button type="submit" >Login</Button>
+                            </Stack>
+                        </form>
+                    </Box>
+                </Stack>
             </Flex>
             <p>{message}</p>
         </React.Fragment>

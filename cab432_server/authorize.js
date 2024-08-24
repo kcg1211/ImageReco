@@ -12,7 +12,7 @@ const authorize = (req, res, next) => {
       console.log("Token: ", token);
     }
     else{
-      return res.json({
+      return res.status(401).json({
         error: true,
         message: "Authorisation failed, no token"
       })
@@ -26,7 +26,7 @@ const authorize = (req, res, next) => {
   
       if (decoded.exp > Date.now()){  // **** Date.now() has passed the expiry date ****
         console.log("Token has expired")
-        return res.json({
+        return res.status(401).json({
           error: true,
           message: "Expired token"
         })
@@ -37,7 +37,7 @@ const authorize = (req, res, next) => {
       next();
     }
     catch(err){
-      res.json({
+      res.status(401).json({
         error: true,
         message: "Token invalid,", err
       })
