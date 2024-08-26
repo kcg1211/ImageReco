@@ -31,11 +31,14 @@ function ImageRecognition() {
   const handleFileUpload = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
+
+    const token = localStorage.getItem('token');
   
     try {
       const response = await axios.post('http://192.168.56.1:5000/upload', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
         }
       });
       console.log(response.data);

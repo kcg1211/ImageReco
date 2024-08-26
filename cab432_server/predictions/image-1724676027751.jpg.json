@@ -1,5 +1,5 @@
 {
-  "imageUrl": "http://192.168.56.1:5000/uploads/image-1724661570086.jpg",
+  "imageUrl": "http://192.168.56.1:5000/uploads/user/image-1724676027751.jpg",
   "predictions": [
     {
       "className": "pirate, pirate ship",
