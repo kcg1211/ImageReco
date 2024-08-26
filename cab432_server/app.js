@@ -8,7 +8,8 @@ const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const uploadRouter = require('./routes/upload');
+var uploadRouter = require('./routes/upload');
+var predictionResultRouter = require('./routes/prediction_result');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/upload', uploadRouter);
+app.use('/prediction_result', predictionResultRouter);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

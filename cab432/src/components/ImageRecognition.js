@@ -6,28 +6,27 @@ import axios from 'axios';
 
 function ImageRecognition() {
   const [model, setModel] = useState(null);
+  const [isModelLoading, setIsModelLoading] = useState(false)
   const [imageSrc, setImageSrc] = useState(null);
   const [predictions, setPredictions] = useState([]);
 
-  useEffect(() => {
-    const loadModel = async () => {
+  const loadModel = async() => {
+    setIsModelLoading(true)
+    try{
       const loadedModel = await mobilenet.load();
       setModel(loadedModel);
-    };
+      setIsModelLoading(false)
+    }
+    catch(error) {
+      console.log(error)
+      setIsModelLoading(false)
+    }
+  }
+
+  useEffect(() => {
     loadModel();
   }, []);
 
-  // const handleImageUpload = (event) => {
-  //   console.log(event);
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImageSrc(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
   const handleFileUpload = async (file) => {
     const formData = new FormData();
@@ -40,6 +39,10 @@ function ImageRecognition() {
         }
       });
       console.log(response.data);
+      console.log(response.data.file);
+      const imageURL = 'http://192.168.56.1:5000' + response.data.file;
+      setImageSrc(imageURL);
+      console.log(imageURL);
     } catch (error) {
       console.error('Error uploading file:', error);
       if (error.response) {
@@ -56,32 +59,40 @@ function ImageRecognition() {
     }
   };
 
-  // async function gettingFile() {
-  //   try {
-  //     const response = await axios.get('http://192.168.56.1:5000/users/protected', {
-  //         headers: {
-  //             Authorization: `Bearer ${authToken}`
-  //         }
-  //     });
-  //     console.log(response.data);
-  //     const responseUsername = response.data.username;
-  //     setUsername(responseUsername);
-  // } catch (error) {
-  //     console.error('Error fetching username:', error.response || error.message);
-  //     setError('Invalid token. Redirecting to login...');
-  //     setUsername('');
-  //     navigate('/401'); // Redirect to the login page if the token is invalid
-  // }
-  // }
-
   const recognizeImage = async () => {
     if (model && imageSrc) {
-      const imageElement = document.getElementById('uploaded-image');
-      const predictions = await model.classify(imageElement);
-      setPredictions(predictions);
+      const imageElement = new Image();
+      imageElement.crossOrigin = 'anonymous';
+      imageElement.src = imageSrc;
+  
+      imageElement.onload = async () => {
+        const predictions = await model.classify(imageElement);
+        setPredictions(predictions);
+
+        try {
+          const response = await axios.post('http://192.168.56.1:5000/prediction_result', {
+            imageUrl: imageSrc,
+            predictions: predictions.map(prediction => ({
+              className: prediction.className,
+              probability: prediction.probability
+            }))
+          });
+  
+          console.log('Predictions saved:', response.data);
+        } catch (error) {
+          console.error('Error saving predictions:', error);
+        }
+      };
+  
+      imageElement.onerror = (error) => {
+        console.error('Error loading image:', error);
+      };
     }
   };
 
+  if (isModelLoading) {
+    return <h2>Model is being loaded...</h2>
+  }
   return (
     <div>
       <h1>Image Recognition</h1>
@@ -89,7 +100,7 @@ function ImageRecognition() {
       <input type="file" onChange={handleFileChange} />
       {imageSrc && (
         <div>
-          <img id="uploaded-image" src={imageSrc} alt="Uploaded" />
+          <img id="uploaded-image" src={imageSrc} alt="Uploaded"/>
           <button onClick={recognizeImage}>Recognize Image</button>
         </div>
       )}

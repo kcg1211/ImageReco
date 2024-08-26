@@ -1,0 +1,17 @@
+{
+  "imageUrl": "http://192.168.56.1:5000/uploads/image-1724662186279.jpg",
+  "predictions": [
+    {
+      "className": "trolleybus, trolley coach, trackless trolley",
+      "probability": 0.39747118949890137
+    },
+    {
+      "className": "streetcar, tram, tramcar, trolley, trolley car",
+      "probability": 0.23979029059410095
+    },
+    {
+      "className": "fireboat",
+      "probability": 0.03932387754321098
+    }
+  ]
+}

@@ -3,8 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 
-// // Import the upload configuration
-// const upload = require('../multer.js');
+// Configuration of Multer middleware
 const storage = multer.diskStorage({
     destination: './uploads/',  // Folder where images will be stored
     filename: (req, file, cb) => {
@@ -42,16 +41,16 @@ router.post('/', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       res.status(400).json({ error: err });
-    } else {
-      if (req.file == undefined) {
-        res.status(400).json({ error: 'No file selected' });
-      } else {
-        res.json({
-          message: 'File uploaded successfully',
-          file: `uploads/${req.file.filename}`
-        });
-      }
+    } 
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file selected' });
     }
+  
+    const imageUrl = `/uploads/${req.file.filename}`;
+    res.json({
+        message: 'File uploaded successfully',
+        file: imageUrl
+    });
   });
 });
 
