@@ -69,6 +69,7 @@ function ImageRecognition() {
       imageElement.src = imageSrc;
   
       imageElement.onload = async () => {
+        const token = localStorage.getItem('token');
         const predictions = await model.classify(imageElement);
         setPredictions(predictions);
 
@@ -78,7 +79,11 @@ function ImageRecognition() {
             predictions: predictions.map(prediction => ({
               className: prediction.className,
               probability: prediction.probability
-            }))
+            })),
+          }, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
           });
   
           console.log('Predictions saved:', response.data);

@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const authorize = require('../authorize');
 
-router.post('/', (req, res) => {
+router.post('/', authorize, (req, res) => { // passing 
   const { imageUrl, predictions } = req.body;
 
   // Validate the incoming data
@@ -12,14 +13,14 @@ router.post('/', (req, res) => {
   }
 
   // Create a directory to store predictions if it doesn't exist
-  const predictionsDir = path.join(__dirname, '..', 'predictions');
-  if (!fs.existsSync(predictionsDir)) {
-    fs.mkdirSync(predictionsDir);
-  }
+  const userDir = path.join(__dirname, '..', 'predictions', req.username);
+    if (!fs.existsSync(userDir)) {
+        fs.mkdirSync(userDir, { recursive: true });
+    }
 
   // Define the path and filename for saving predictions
   const fileName = path.basename(imageUrl) + '.json';
-  const filePath = path.join(predictionsDir, fileName);
+  const filePath = path.join(userDir, fileName);
 
   // Save the predictions as a JSON file
   fs.writeFile(filePath, JSON.stringify({ imageUrl, predictions }, null, 2), (err) => {
