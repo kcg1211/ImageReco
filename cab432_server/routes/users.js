@@ -7,11 +7,17 @@ var router = express.Router();
 const SECRET_KEY = 'your_secret_key';
 
 // Simple user information without a database
-const user = {
+const users = [{
     id: 1,
     username: 'admin',
     password: 'password123'
-};
+},
+{
+    id: 2,
+    username: 'user',
+    password: '123456'
+}];
+
 
 
 /* GET users listing. */
@@ -23,12 +29,14 @@ router.get('/', function(req, res, next) {
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  if (username === user.username && password === user.password) {
-      const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
-      return res.json({ token });
-  } else {
-      return res.status(401).json({ message: 'Wrong username/password' });
-  }
+  const user = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+        const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
+        return res.json({ token });
+    } else {
+        return res.status(401).json({ message: 'Invalid credentials' });
+    }
 });
 
 // //Protected route example
