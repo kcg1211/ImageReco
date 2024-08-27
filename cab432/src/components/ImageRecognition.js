@@ -5,7 +5,7 @@ import '@tensorflow/tfjs-backend-webgl';
 import axios from 'axios';
 import { Spinner, Flex, Button } from '@chakra-ui/react';
 
-function ImageRecognition() {
+function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
   const [model, setModel] = useState(null);
   const [isModelLoading, setIsModelLoading] = useState(false)
   const [imageSrc, setImageSrc] = useState(null);
@@ -88,6 +88,7 @@ function ImageRecognition() {
           });
   
           console.log('Predictions saved:', response.data);
+          setRecognitionCompleted(!recognitionCompleted);
         } catch (error) {
           console.error('Error saving predictions:', error);
         }

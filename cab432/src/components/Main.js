@@ -10,6 +10,8 @@ export default function Main(){
     const [username, setUsername] = useState('');
     const [error, setError] = useState('');
     const [token, setToken] = useState('');
+    const [recognitionCompleted, setRecognitionCompleted] = useState(false);
+
     const navigate = useNavigate(); 
 
     useEffect(() => {
@@ -67,10 +69,10 @@ export default function Main(){
             <Container maxW='container.lg'>
                 <Flex justifyContent={"space-between"}>
                     <Box maxW={'500px'}>
-                        <ImageRecognition />
+                        <ImageRecognition setRecognitionCompleted={setRecognitionCompleted} recognitionCompleted={recognitionCompleted} />
                     </Box>
                     <Box w='400px'>
-                        <PredictionHistory />
+                        <PredictionHistory recognitionCompleted={recognitionCompleted} />
                     </Box>
                 </Flex>
             

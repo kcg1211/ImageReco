@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function PredictionHistory() {
+function PredictionHistory({ recognitionCompleted }) {
   const [history, setHistory] = useState([]);
 
   const fetchHistory = async () => {
@@ -24,7 +24,7 @@ function PredictionHistory() {
 
   useEffect(() => {
     fetchHistory();
-  }, []);
+  }, [recognitionCompleted]);
 
   return (
     <div>
