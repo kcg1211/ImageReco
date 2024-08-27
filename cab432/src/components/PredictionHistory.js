@@ -4,24 +4,25 @@ import axios from 'axios';
 function PredictionHistory() {
   const [history, setHistory] = useState([]);
 
+  const fetchHistory = async () => {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await axios.get('http://192.168.56.1:5000/prediction_history', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      console.log(response.data.predictions);
+      const reversedHistory = [...response.data.predictions].reverse();
+      setHistory(reversedHistory);
+    } catch (error) {
+      console.error('Error fetching prediction history:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchHistory = async () => {
-      const token = localStorage.getItem('token');
-
-      try {
-        const response = await axios.get('http://192.168.56.1:5000/prediction_history', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        console.log(response.data.predictions);
-        setHistory(response.data.predictions);
-      } catch (error) {
-        console.error('Error fetching prediction history:', error);
-      }
-    };
-
     fetchHistory();
   }, []);
 
