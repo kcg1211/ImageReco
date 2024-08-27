@@ -1,0 +1,17 @@
+{
+  "imageUrl": "http://192.168.56.1:5000/uploads/admin/image-1724755436483.jpg",
+  "predictions": [
+    {
+      "className": "airship, dirigible",
+      "probability": 0.6354799270629883
+    },
+    {
+      "className": "street sign",
+      "probability": 0.1636136770248413
+    },
+    {
+      "className": "traffic light, traffic signal, stoplight",
+      "probability": 0.020901743322610855
+    }
+  ]
+}

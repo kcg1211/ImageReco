@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Center, Container, Flex } from '@chakra-ui/react'
 import ImageRecognition from 'components/ImageRecognition.js';
+import PredictionHistory from 'components/PredictionHistory';
 
 export default function Main(){
 
@@ -69,7 +70,7 @@ export default function Main(){
                         <ImageRecognition />
                     </Box>
                     <Box w='400px'>
-                        <p>History:</p>
+                        <PredictionHistory />
                     </Box>
                 </Flex>
             
