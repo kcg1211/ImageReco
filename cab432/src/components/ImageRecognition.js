@@ -3,6 +3,7 @@ import * as mobilenet from '@tensorflow-models/mobilenet';
 import '@tensorflow/tfjs-backend-cpu';
 import '@tensorflow/tfjs-backend-webgl';
 import axios from 'axios';
+import { Spinner, Flex, Button } from '@chakra-ui/react';
 
 function ImageRecognition() {
   const [model, setModel] = useState(null);
@@ -99,17 +100,23 @@ function ImageRecognition() {
   };
 
   if (isModelLoading) {
-    return <h2>Model is being loaded...</h2>
+    return (
+    <div>
+      <Flex>
+        <Spinner />
+        <h2>Model is being loaded...</h2>
+      </Flex>
+    </div>
+    )
   }
   return (
     <div>
-      <h1>Image Recognition</h1>
       {/* only accepting image files*/}
       <input type="file" onChange={handleFileChange} />
       {imageSrc && (
         <div>
           <img id="uploaded-image" src={imageSrc} alt="Uploaded"/>
-          <button onClick={recognizeImage}>Recognize Image</button>
+          <Button onClick={recognizeImage}>Recognize Image</Button>
         </div>
       )}
       <div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@chakra-ui/react'
+import { Button, Box, Center, Container, Flex } from '@chakra-ui/react'
 import ImageRecognition from 'components/ImageRecognition.js';
 
 export default function Main(){
@@ -51,14 +51,29 @@ export default function Main(){
 
     return(
         <div>
-            <h1>
-                Main
-                <p>Hi, {username}</p>
-                {error && <p>{error}</p>}
-                <ImageRecognition />
-                <Button onClick={() => handleLogout()}>Logout</Button>
-
-            </h1>
+            <Container maxW='container.lg' display='flex' justifyContent={"space-between"}>
+                <Flex alignItems={'center'}>
+                    <h1>Image Recognition</h1>
+                </Flex>
+                <Flex alignItems="baseline">
+                    <p>Hi, {username}</p>
+                    {error && <p>{error}</p>}
+                    <span>
+                        <Button onClick={() => handleLogout()}>Logout</Button>
+                    </span>
+                </Flex>
+            </Container>
+            <Container maxW='container.lg'>
+                <Flex justifyContent={"space-between"}>
+                    <Box maxW={'500px'}>
+                        <ImageRecognition />
+                    </Box>
+                    <Box w='400px'>
+                        <p>History:</p>
+                    </Box>
+                </Flex>
+            
+            </Container>
         </div>
     )
 }

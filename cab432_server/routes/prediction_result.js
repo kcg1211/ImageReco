@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const authorize = require('../authorize');
 
-router.post('/', authorize, (req, res) => { // passing 
+router.post('/', authorize, (req, res) => { // passing username data thru authroize middleware
   const { imageUrl, predictions } = req.body;
 
   // Validate the incoming data
