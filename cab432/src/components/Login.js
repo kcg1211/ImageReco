@@ -1,7 +1,8 @@
-import { Input, Stack, Box, Flex, Button } from '@chakra-ui/react'
+import { Input, Stack, Box, Flex, Button, Container } from '@chakra-ui/react'
 import React, { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import style from 'css/Login.module.css'
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -71,37 +72,43 @@ function Login() {
 
     return (
         <React.Fragment>
-            <Flex align="center" justify="center" direction="column" width="100%" height="100%">
-                <Stack spacing={5}>
-                    <Box as="h2" textAlign="center">
-                        Login
-                    </Box>
-                    <Box>
-                        <form onSubmit={handleSubmit}>
-                            <Stack spacing={5}>
-                                <div>
-                                    <Input
-                                        placeholder='Username'
-                                        value={username} 
-                                        onChange={handleUsernameChange} 
-                                    />
-                                    {errors.username && <p>{errors.username}</p>}
-                                </div>
-                                <div>
-                                    <Input 
-                                        type='password'
-                                        placeholder='Password'
-                                        value={password} 
-                                        onChange={handlePasswordChange} 
-                                    />
-                                    {errors.password && <p>{errors.password}</p>}
-                                </div>
-                                <Button type="submit" >Login</Button>
-                            </Stack>
-                        </form>
-                    </Box>
-                </Stack>
-            </Flex>
+            <div className={`${style.background}`}>
+                <Container borderRadius="md">
+                    <Flex align="center" justify="center" direction="column" width="100%" minHeight="100vh">
+                        <Stack spacing={5} px={16} py={8} bg="rgba(51, 51, 51, 0.8)" borderRadius={20}>
+                            <Box as="h2" textAlign="center">
+                                Login
+                            </Box>
+                            <Box>
+                                <form onSubmit={handleSubmit}>
+                                    <Stack spacing={5}>
+                                        <div>
+                                            <Input
+                                                placeholder='Username'
+                                                value={username} 
+                                                onChange={handleUsernameChange} 
+                                                bg="white"
+                                            />
+                                            {errors.username && <p>{errors.username}</p>}
+                                        </div>
+                                        <div>
+                                            <Input 
+                                                type='password'
+                                                placeholder='Password'
+                                                value={password} 
+                                                onChange={handlePasswordChange}
+                                                bg="white"
+                                            />
+                                            {errors.password && <p>{errors.password}</p>}
+                                        </div>
+                                        <Button type="submit" >Login</Button>
+                                    </Stack>
+                                </form>
+                            </Box>
+                        </Stack>
+                    </Flex>
+                </Container>
+            </div>
             <p>{message}</p>
         </React.Fragment>
     );

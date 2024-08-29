@@ -1,0 +1,17 @@
+{
+  "imageUrl": "http://192.168.56.1:5000/uploads/admin/image-1724901905971.jpg",
+  "predictions": [
+    {
+      "className": "military uniform",
+      "probability": 0.8265145421028137
+    },
+    {
+      "className": "cowboy hat, ten-gallon hat",
+      "probability": 0.15389201045036316
+    },
+    {
+      "className": "sombrero",
+      "probability": 0.004078061319887638
+    }
+  ]
+}

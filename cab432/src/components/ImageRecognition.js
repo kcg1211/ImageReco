@@ -3,7 +3,10 @@ import * as mobilenet from '@tensorflow-models/mobilenet';
 import '@tensorflow/tfjs-backend-cpu';
 import '@tensorflow/tfjs-backend-webgl';
 import axios from 'axios';
-import { Spinner, Flex, Button } from '@chakra-ui/react';
+import { Spinner, Flex, Button, Box } from '@chakra-ui/react';
+import { FileUploader } from "react-drag-drop-files";
+
+const fileTypes = ["JPG", "JPEG", "PNG", "GIF"];
 
 function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
   const [model, setModel] = useState(null);
@@ -56,11 +59,15 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
     }
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      handleFileUpload(file);
-    }
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     handleFileUpload(file);
+  //   }
+  // };
+
+  const handleChange = (file) => {
+    handleFileUpload(file);
   };
 
   const recognizeImage = async () => {
@@ -102,18 +109,19 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
 
   if (isModelLoading) {
     return (
-    <div>
+    <Box>
       <Flex>
-        <Spinner />
+        <Spinner mr={3} />
         <h2>Model is being loaded...</h2>
       </Flex>
-    </div>
+    </Box>
     )
   }
   return (
     <div>
       {/* only accepting image files*/}
-      <input type="file" onChange={handleFileChange} />
+      {/* <input type="file" onChange={handleFileChange} /> */}
+      <FileUploader handleChange={handleChange} name="file" types={fileTypes}/>
       {imageSrc && (
         <div>
           <img id="uploaded-image" src={imageSrc} alt="Uploaded"/>

@@ -1,0 +1,17 @@
+{
+  "imageUrl": "http://192.168.56.1:5000/uploads/admin/image-1724762383680.jpg",
+  "predictions": [
+    {
+      "className": "airship, dirigible",
+      "probability": 0.6433339715003967
+    },
+    {
+      "className": "aircraft carrier, carrier, flattop, attack aircraft carrier",
+      "probability": 0.07254921644926071
+    },
+    {
+      "className": "unicycle, monocycle",
+      "probability": 0.06044638156890869
+    }
+  ]
+}
