@@ -102,6 +102,7 @@ function Login() {
                                             {errors.password && <p>{errors.password}</p>}
                                         </div>
                                         <Button type="submit" >Login</Button>
+                                        <p>{message}</p>
                                     </Stack>
                                 </form>
                             </Box>
@@ -109,7 +110,6 @@ function Login() {
                     </Flex>
                 </Container>
             </div>
-            <p>{message}</p>
         </React.Fragment>
     );
 }

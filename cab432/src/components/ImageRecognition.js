@@ -3,7 +3,7 @@ import * as mobilenet from '@tensorflow-models/mobilenet';
 import '@tensorflow/tfjs-backend-cpu';
 import '@tensorflow/tfjs-backend-webgl';
 import axios from 'axios';
-import { Spinner, Flex, Button, Box } from '@chakra-ui/react';
+import { Spinner, Flex, Button, Box, Spacer } from '@chakra-ui/react';
 import { FileUploader } from "react-drag-drop-files";
 
 const fileTypes = ["JPG", "JPEG", "PNG", "GIF"];
@@ -118,22 +118,34 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
     )
   }
   return (
-    <div>
+    <Box maxH='80vh' mb={6}>
       {/* only accepting image files*/}
       {/* <input type="file" onChange={handleFileChange} /> */}
-      <FileUploader handleChange={handleChange} name="file" types={fileTypes}/>
-      {imageSrc && (
-        <div>
-          <img id="uploaded-image" src={imageSrc} alt="Uploaded"/>
-          <Button onClick={recognizeImage}>Recognize Image</Button>
-        </div>
-      )}
-      <div>
-        {predictions && predictions.map((prediction, index) => (
-          <p key={index}>{prediction.className}: {Math.round(prediction.probability * 100)}%</p>
-        ))}
-      </div>
-    </div>
+
+      <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+
+        {imageSrc && (
+          <React.Fragment>
+            <Box mt={6} mb={6}>
+              <img id="uploaded-image" src={imageSrc} alt="Uploaded" style={{maxHeight:"60vh"}}/>
+            </Box>
+            <Flex>
+              <Button onClick={recognizeImage}>Recognize Image</Button>
+              <Spacer />
+                {predictions && predictions.map((prediction, index) => (
+                  <React.Fragment>
+                    <Flex>
+                      <p key={index}>{prediction.className}: <br></br>
+                      <h1><b>{Math.round(prediction.probability * 100)}%</b></h1></p>
+                    </Flex>
+                    <Spacer />
+                  </React.Fragment>
+                ))}
+            </Flex>
+          </React.Fragment>
+        )}
+
+    </Box>
   );
 }
 

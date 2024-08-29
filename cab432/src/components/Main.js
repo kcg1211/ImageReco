@@ -77,15 +77,14 @@ export default function Main(){
             </Flex>
         </Container>
         <Container maxW='container.xl'>
-            <Flex justifyContent={"space-between"}>
-                <Box maxW='600px'>
+            <Flex justifyContent={"space-between"} gap='20'>
+                <Box flex='0.6'>
                     <ImageRecognition setRecognitionCompleted={setRecognitionCompleted} recognitionCompleted={recognitionCompleted} />
                 </Box>
-                <Box w='500px'>
+                <Box flex='0.4'>
                     <PredictionHistory recognitionCompleted={recognitionCompleted} />
                 </Box>
             </Flex>
-        
         </Container>
         </div>
     )
