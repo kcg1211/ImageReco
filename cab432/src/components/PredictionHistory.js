@@ -3,13 +3,17 @@ import axios from 'axios';
 import { Box, Text, Flex, Card, CardHeader, CardBody, CardFooter, Stack, Heading, Button, Image } from "@chakra-ui/react";
 
 function PredictionHistory({ recognitionCompleted }) {
+
+    const API_URL = process.env.REACT_APP_API_URL;
+
     const [history, setHistory] = useState([]);
 
+    // Getting prediction history from corresponding user's directory
     const fetchHistory = async () => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await axios.get('http://192.168.56.1:5000/prediction_history', {
+            const response = await axios.get(`${API_URL}/prediction_history`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

@@ -4,20 +4,19 @@ const authorize = require('../authorize');
 var router = express.Router();
 
 
-const SECRET_KEY = 'your_secret_key';
+const SECRET_KEY = process.env.AUTHORISATION_SECRET_KEY;
 
-// Simple user information without a database
+// User information without a database
 const users = [{
     id: 1,
-    username: 'admin',
-    password: 'password123'
+    username: 'user1',
+    password: '123456'
 },
 {
     id: 2,
-    username: 'user',
-    password: '123456'
+    username: 'user2',
+    password: '654321'
 }];
-
 
 
 /* GET users listing. */
@@ -38,21 +37,6 @@ router.post('/login', (req, res) => {
         return res.status(401).json({ message: 'Invalid credentials' });
     }
 });
-
-// //Protected route example
-// router.get('/protected', (req, res) => {
-//   const token = req.headers.authorization?.split(' ')[1];
-//   if (!token) {
-//       return res.status(401).json({ message: 'No token provided' });
-//   }
-
-//   jwt.verify(token, SECRET_KEY, (err, decoded) => {
-//       if (err) {
-//           return res.status(401).json({ message: 'Invalid token' });
-//       }
-//       res.json({ message: 'This is a protected route', user: decoded });
-//   });
-// });
 
 router.get('/protected', authorize, (req, res) => {
     res.json({ message: 'This is a protected route', id: req.id, username: req.username });

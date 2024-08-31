@@ -20,7 +20,7 @@ const authorize = (req, res, next) => {
   
     // **** validating the token by decoding it with the secret key ****
     try{
-      const secretKey = 'your_secret_key';
+      const secretKey = process.env.AUTHORISATION_SECRET_KEY;
       const decoded = jwt.verify(token, secretKey)
       
   

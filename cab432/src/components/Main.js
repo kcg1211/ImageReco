@@ -7,6 +7,8 @@ import PredictionHistory from 'components/PredictionHistory';
 
 export default function Main(){
 
+    const API_URL = process.env.REACT_APP_API_URL;
+
     const [username, setUsername] = useState('');
     const [error, setError] = useState('');
     const [token, setToken] = useState('');
@@ -24,13 +26,13 @@ export default function Main(){
           else {
             setError('No token found. Redirecting...');
             console.log(error);
-            navigate('/401');//redirect to error page
+            navigate('/401'); // redirect to error page
           }
     }, [navigate]);
 
     async function GetUsername(authToken) {
         try {
-            const response = await axios.get('http://192.168.56.1:5000/users/protected', {
+            const response = await axios.get(`${API_URL}/users/protected`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -73,12 +75,13 @@ export default function Main(){
             <Flex alignItems="baseline">
                 <Text mr={3}>Hi, {username}</Text>
                 {error && <Text color="red.300">{error}</Text>}
-                <Button variant='outline' onClick={handleLogout}>Logout</Button>
+                <Button colorScheme='gray' variant='solid' onClick={handleLogout}>Logout</Button>
             </Flex>
         </Container>
         <Container maxW='container.xl'>
             <Flex justifyContent={"space-between"} gap='20'>
                 <Box flex='0.6'>
+                    {/* State being passed into children components to update history instantly */}
                     <ImageRecognition setRecognitionCompleted={setRecognitionCompleted} recognitionCompleted={recognitionCompleted} />
                 </Box>
                 <Box flex='0.4'>

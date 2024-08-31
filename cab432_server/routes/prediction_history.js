@@ -7,10 +7,12 @@ const authorize = require('../authorize');
 router.get('/', authorize, (req, res) => {
     const userDir = path.join(__dirname, '..', 'predictions', req.username);
 
+    //Return empty array as JSON if directory not found
     if (!fs.existsSync(userDir)) {
         return res.json({ predictions: [] });
     }
 
+    // Read directory and send JSON
     fs.readdir(userDir, (err, files) => {
         if (err) {
             console.error('Error reading user directory:', err);

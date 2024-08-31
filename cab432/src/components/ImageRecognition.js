@@ -9,6 +9,9 @@ import { FileUploader } from "react-drag-drop-files";
 const fileTypes = ["JPG", "JPEG", "PNG", "GIF"];
 
 function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
+
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const [model, setModel] = useState(null);
   const [isModelLoading, setIsModelLoading] = useState(false)
   const [imageSrc, setImageSrc] = useState(null);
@@ -31,7 +34,7 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
     loadModel();
   }, []);
 
-
+  // Image file upload with username being passed to backend to create directory
   const handleFileUpload = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
@@ -39,7 +42,7 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
     const token = localStorage.getItem('token');
   
     try {
-      const response = await axios.post('http://192.168.56.1:5000/upload', formData, {
+      const response = await axios.post(`${API_URL}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`
@@ -47,7 +50,7 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
       });
       console.log(response.data);
       console.log(response.data.file);
-      const imageURL = 'http://192.168.56.1:5000' + response.data.file;
+      const imageURL = `${API_URL}` + response.data.file;
       setImageSrc(imageURL);
       console.log(imageURL);
     } catch (error) {
@@ -58,13 +61,6 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
       }
     }
   };
-
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     handleFileUpload(file);
-  //   }
-  // };
 
   const handleChange = (file) => {
     handleFileUpload(file);
@@ -82,7 +78,7 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
         setPredictions(predictions);
 
         try {
-          const response = await axios.post('http://192.168.56.1:5000/prediction_result', {
+          const response = await axios.post(`${API_URL}/prediction_result`, {
             imageUrl: imageSrc,
             predictions: predictions.map(prediction => ({
               className: prediction.className,
@@ -120,8 +116,6 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
   return (
     <Box maxH='80vh' mb={6}>
       {/* only accepting image files*/}
-      {/* <input type="file" onChange={handleFileChange} /> */}
-
       <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
 
         {imageSrc && (
@@ -135,8 +129,8 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
                 {predictions && predictions.map((prediction, index) => (
                   <React.Fragment>
                     <Flex>
-                      <p key={index}>{prediction.className}: <br></br>
-                      <h1><b>{Math.round(prediction.probability * 100)}%</b></h1></p>
+                      <p key={index}><b>{prediction.className}: </b><br></br>
+                      {Math.round(prediction.probability * 100)}%</p>
                     </Flex>
                     <Spacer />
                   </React.Fragment>

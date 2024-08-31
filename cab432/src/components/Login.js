@@ -1,10 +1,13 @@
-import { Input, Stack, Box, Flex, Button, Container } from '@chakra-ui/react'
+import { Input, Stack, Box, Flex, Button, Container, Text } from '@chakra-ui/react'
 import React, { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import style from 'css/Login.module.css'
 
 function Login() {
+
+    const API_URL = process.env.REACT_APP_API_URL;
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
@@ -60,7 +63,7 @@ function Login() {
 
         async function userLogin() {
             try {
-                const response = await axios.post('http://192.168.56.1:5000/users/login', { username, password });
+                const response = await axios.post(`${API_URL}/users/login`, { username, password });
                 localStorage.setItem('token', response.data.token);
                 setMessage('Login successful!');
                 navigate('/main');
@@ -77,7 +80,7 @@ function Login() {
                     <Flex align="center" justify="center" direction="column" width="100%" minHeight="100vh">
                         <Stack spacing={5} px={16} py={8} bg="rgba(51, 51, 51, 0.8)" borderRadius={20}>
                             <Box as="h2" textAlign="center">
-                                Login
+                                <Text fontSize='xl' color='white'>Image Recognition</Text>
                             </Box>
                             <Box>
                                 <form onSubmit={handleSubmit}>
@@ -89,7 +92,7 @@ function Login() {
                                                 onChange={handleUsernameChange} 
                                                 bg="white"
                                             />
-                                            {errors.username && <p>{errors.username}</p>}
+                                            {errors.username && <Text color='white'>{errors.username}</Text>}
                                         </div>
                                         <div>
                                             <Input 
@@ -99,10 +102,10 @@ function Login() {
                                                 onChange={handlePasswordChange}
                                                 bg="white"
                                             />
-                                            {errors.password && <p>{errors.password}</p>}
+                                            {errors.password && <Text color='white'>{errors.password}</Text>}
                                         </div>
                                         <Button type="submit" >Login</Button>
-                                        <p>{message}</p>
+                                        <Text color='white'>{message}</Text>
                                     </Stack>
                                 </form>
                             </Box>
