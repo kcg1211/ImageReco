@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Container, Flex, Text } from '@chakra-ui/react'
@@ -16,21 +16,7 @@ export default function Main(){
 
     const navigate = useNavigate(); 
 
-    useEffect(() => {
-        const authToken = localStorage.getItem('token'); 
-        if (authToken) {
-            setToken(authToken);
-            GetUsername(authToken);
-            setError('')
-          }
-          else {
-            setError('No token found. Redirecting...');
-            console.log(error);
-            navigate('/401'); // redirect to error page
-          }
-    }, [navigate]);
-
-    async function GetUsername(authToken) {
+    const GetUsername = useCallback(async (authToken) => {
         try {
             const response = await axios.get(`${API_URL}/users/protected`, {
                 headers: {
@@ -46,7 +32,21 @@ export default function Main(){
             setUsername('');
             navigate('/401'); // Redirect to the login page if the token is invalid
         }
-    }
+    }, [API_URL, navigate]);
+
+    useEffect(() => {
+        const authToken = localStorage.getItem('token'); 
+        if (authToken) {
+            setToken(authToken);
+            GetUsername(authToken);
+            setError('');
+        }
+        else {
+            setError('No token found. Redirecting...');
+            console.log(error);
+            navigate('/401'); // redirect to error page
+        }
+    }, [GetUsername, navigate]);
 
     function handleLogout() {
         localStorage.removeItem('token');

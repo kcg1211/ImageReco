@@ -1,0 +1,19 @@
+# docker compose for local testing
+# command: docker-compose up --build
+# removing container without GUI: docker-compose down
+
+version: "3"
+services:
+  react-app:
+    build: ./cab432
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    depends_on:
+      - node-app
+
+  node-app:
+    build: ./cab432_server
+    ports:
+      - "5000:5000"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Box, Text, Flex, Card, CardHeader, CardBody, CardFooter, Stack, Heading, Button, Image } from "@chakra-ui/react";
 
@@ -9,7 +9,7 @@ function PredictionHistory({ recognitionCompleted }) {
     const [history, setHistory] = useState([]);
 
     // Getting prediction history from corresponding user's directory
-    const fetchHistory = async () => {
+    const fetchHistory = useCallback(async () => {
         const token = localStorage.getItem('token');
 
         try {
@@ -25,11 +25,11 @@ function PredictionHistory({ recognitionCompleted }) {
         } catch (error) {
             console.error('Error fetching prediction history:', error);
         }
-    };
+    }, [API_URL]);
 
     useEffect(() => {
         fetchHistory();
-    }, [recognitionCompleted]);
+    }, [fetchHistory, recognitionCompleted]);
 
     return (
         <div>

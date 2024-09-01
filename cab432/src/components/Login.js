@@ -63,6 +63,7 @@ function Login() {
 
         async function userLogin() {
             try {
+                console.log(API_URL)
                 const response = await axios.post(`${API_URL}/users/login`, { username, password });
                 localStorage.setItem('token', response.data.token);
                 setMessage('Login successful!');
