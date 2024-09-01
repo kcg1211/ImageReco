@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import '@tensorflow/tfjs-backend-cpu';
 import '@tensorflow/tfjs-backend-webgl';
+import * as tf from '@tensorflow/tfjs';
 import axios from 'axios';
 import { Spinner, Flex, Button, Box, Spacer } from '@chakra-ui/react';
 import { FileUploader } from "react-drag-drop-files";
 
-const fileTypes = ["JPG", "JPEG", "PNG", "GIF"];
+const fileTypes = ["JPG", "JPEG", "PNG", "GIF", "TIF", "BMP", "RAF"];
 
 function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
 
@@ -20,6 +21,8 @@ function ImageRecognition({ setRecognitionCompleted, recognitionCompleted }) {
   const loadModel = async() => {
     setIsModelLoading(true)
     try{
+      await tf.setBackend('cpu'); // Set the backend to CPU
+      await tf.ready(); // Ensure the backend is ready
       const loadedModel = await mobilenet.load();
       setModel(loadedModel);
       setIsModelLoading(false)
